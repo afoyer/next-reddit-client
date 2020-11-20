@@ -1,30 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a work-in-progress Reddit client project using [`next-auth`](https://github.com/nextauthjs/next-auth), [`snoowrap`](https://github.com/not-an-aardvark/snoowrap) and [`next.js`](https://github.com/vercel/next.js/).
 
-## Getting Started
+## A bit of information
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
+Currently, [`next-auth`](https://github.com/nextauthjs/next-auth) does not support Reddit authentication. I have fixed that by adding these lines on [callback.js](https://github.com/afoyer/next-auth/blob/1c052930ef9e6aaef93da7bcc36b87e7dcaed4b8/src/server/lib/oauth/callback.js):
 ```
+//// Line 215
+  if (provider.id === 'reddit') {
+    headers.Authorization = 'Basic ' + Buffer.from((provider.clientId + ':' + provider.clientSecret)).toString('base64')
+  }
+```
+Once done you can create your provider like I did: 
+```
+{
+      id: "reddit",
+      name: "Reddit",
+      clientId: process.env.REDDIT_CLIENT_ID,
+      clientSecret: process.env.REDDIT_CLIENT_SECRET,
+      type: "oauth",
+      version: "2.0",
+      scope: "identity mysubreddits read",
+      params: { grant_type: "authorization_code" },
+      accessTokenUrl: " https://www.reddit.com/api/v1/access_token",
+      authorizationUrl:
+        "https://www.reddit.com/api/v1/authorize?response_type=code&duration=permanent",
+      profileUrl: "https://oauth.reddit.com/api/v1/me",
+      profile: (profile) => {
+        return {
+          id: profile.id,
+          name: profile.name,
+          email: null,
+        };
+      },
+    },
+```
+(change the scope to your liking)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This is still an early test and only shows top posts of a particular subreddit so we'll see where this goes.
