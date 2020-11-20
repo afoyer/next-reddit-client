@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '../../styles/Home.module.css'
-import {getSession, useSession } from 'next-auth/client'
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+import {getSession} from 'next-auth/client'
+import { GetServerSideProps,} from 'next';
 import { Snoo } from '../../components/Snoo';
 export const getServerSideProps: GetServerSideProps = async(context) => {
     const session = await getSession(context)
