@@ -9,21 +9,21 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Better For Reddit</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
       {!session && <>
-      Not signed in <br/>
-      <button onClick={signIn}>Sign in with Spotify</button>
+      <p>Not signed in </p>
+      <button className='btn btn-primary'onClick={() =>{signIn('reddit')}}>Sign in with Reddit</button>
       
       
     </>}
     {session && <>
-      <p>Signed in as {session.user.name}</p>  <br/>
-      <img src={session.user.image}/>
-      <button onClick={signOut}>Sign out</button>
+      <p>Signed in as {session.user.name}</p> 
+      {session.user.image && <img src={session.user.image}/>}
+      <button class='btn btn-danger' onClick={signOut}>Sign out</button>
     </>}
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.ts!</a>

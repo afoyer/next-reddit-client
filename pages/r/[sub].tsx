@@ -2,7 +2,8 @@ import Head from 'next/head'
 import styles from '../../styles/Home.module.css'
 import {getSession} from 'next-auth/client'
 import { GetServerSideProps,} from 'next';
-import { Snoo } from '../../components/Snoo';
+import { Snoo } from '../../components/helper/Snoo';
+import RPost from '../../components/RPost';
 export const getServerSideProps: GetServerSideProps = async(context) => {
     const session = await getSession(context)
     if(session){
@@ -15,7 +16,7 @@ export const getServerSideProps: GetServerSideProps = async(context) => {
         return {props:{data: '404'}}
     }
     }
-    return { props:  {data: session == null ? null: session.refreshToken } }
+    return { props:  {data: session == null ? null: session.refreshToken, sub: context.params.sub } }
   }
 
     
@@ -25,13 +26,13 @@ export const getServerSideProps: GetServerSideProps = async(context) => {
 export default function Sub(props){
 const initialData = props.data
 if(!initialData) {
-    return <h1 className={styles.title}>You must be logged in to see subreddits</h1>
+    return <h1 key={props.sub + 'error'} className={styles.title}>You must be logged in to see subreddits</h1>
 }
 if(initialData === '404'){
-    return <h1 className={styles.title}>404</h1>
+    return <h1 key={props.sub + '404'}className={styles.title}>404</h1>
 }
-  return initialData.map(post => {
-      return <h1>{post}</h1>
+  return initialData.map((post) => {
+      return <RPost post={post} index={post} key={post}/>
   })
 }
 
