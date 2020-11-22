@@ -35,4 +35,6 @@ Once done you can create your provider like I did:
 ```
 (change the scope to your liking)
 
+Don't forget to also set your client and secret key somewhere safe.
+
 This is still an early test and only shows top posts of a particular subreddit so we'll see where this goes.
