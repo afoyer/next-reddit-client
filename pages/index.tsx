@@ -23,7 +23,7 @@ export default function Home() {
     {session && <>
       <p>Signed in as {session.user.name}</p> 
       {session.user.image && <img src={session.user.image}/>}
-      <button class='btn btn-danger' onClick={signOut}>Sign out</button>
+      <button className='btn btn-danger' onClick={() => signOut()}>Sign out</button>
     </>}
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.ts!</a>
