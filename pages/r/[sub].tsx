@@ -6,10 +6,10 @@ import { Snoo } from '../../components/helper/Snoo';
 import RPost from '../../components/RPost';
 export const getServerSideProps: GetServerSideProps = async(context) => {
     const session = await getSession(context)
+    const sub: string = context.params.sub.toString();
     if(session){
     try {const snoo = Snoo(process.env.REDDIT_CLIENT_ID, process.env.REDDIT_CLIENT_SECRET, session.refreshToken)
-    
-    const subreddit = (await (await snoo).getSubreddit(context.params.sub).getHot()).map(post=> post.title)
+    const subreddit = (await (await snoo).getSubreddit(sub).getHot()).map(post=> post.title)
     return { props:  {data: subreddit} }
     }
     catch(err){
