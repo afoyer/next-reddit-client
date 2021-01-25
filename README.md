@@ -2,6 +2,8 @@ This is a work-in-progress Reddit client project using [`next-auth`](https://git
 
 ## A bit of information
 
+### UPDATE: Working branch does not need what is below anymore. Check it out.
+
 Currently, [`next-auth`](https://github.com/nextauthjs/next-auth) does not support Reddit authentication. I have fixed that by adding these lines on [callback.js](https://github.com/afoyer/next-auth/blob/1c052930ef9e6aaef93da7bcc36b87e7dcaed4b8/src/server/lib/oauth/callback.js):
 ```
 //// Line 215
